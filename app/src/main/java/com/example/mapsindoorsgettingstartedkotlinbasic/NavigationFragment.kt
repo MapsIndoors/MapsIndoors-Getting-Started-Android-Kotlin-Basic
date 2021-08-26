@@ -12,11 +12,10 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
-import com.mapsindoors.mapssdk.Route
-import java.util.concurrent.TimeUnit
+import com.mapsindoors.mapssdk.MPRoute
 
 class NavigationFragment : Fragment() {
-    private var mRoute: Route? = null
+    private var mRoute: MPRoute? = null
     private var mMapsActivity: MapsActivity? = null
 
     @Nullable
@@ -75,7 +74,7 @@ class NavigationFragment : Fragment() {
         }
 
         override fun getItemCount(): Int {
-            mRoute?.legs?.let { legs->
+            mRoute?.legs?.let { legs ->
                 return legs.size
             }
             return 0
@@ -83,7 +82,7 @@ class NavigationFragment : Fragment() {
     }
 
     companion object {
-        fun newInstance(route: Route?, mapsActivity: MapsActivity?): NavigationFragment {
+        fun newInstance(route: MPRoute?, mapsActivity: MapsActivity?): NavigationFragment {
             val fragment = NavigationFragment()
             fragment.mRoute = route
             fragment.mMapsActivity = mapsActivity

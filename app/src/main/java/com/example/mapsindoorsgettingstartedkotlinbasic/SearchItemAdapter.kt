@@ -5,7 +5,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.mapsindoors.mapssdk.LocationDisplayRule
 import com.mapsindoors.mapssdk.MPLocation
 
 

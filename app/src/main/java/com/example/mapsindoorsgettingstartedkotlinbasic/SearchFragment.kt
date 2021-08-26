@@ -23,7 +23,8 @@ class SearchFragment : Fragment() {
     override fun onViewCreated(view: View, @Nullable savedInstanceState: Bundle?) {
         val recyclerView = view as RecyclerView
         recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.adapter = mLocations?.let { locations -> SearchItemAdapter(locations, mMapActivity) }
+        recyclerView.adapter =
+            mLocations?.let { locations -> SearchItemAdapter(locations, mMapActivity) }
     }
 
     override fun onCreate(@Nullable savedInstanceState: Bundle?) {
@@ -31,7 +32,10 @@ class SearchFragment : Fragment() {
     }
 
     companion object {
-        fun newInstance(locations: List<MPLocation?>?, mapsActivity: MapsActivity?): SearchFragment {
+        fun newInstance(
+            locations: List<MPLocation?>?,
+            mapsActivity: MapsActivity?
+        ): SearchFragment {
             val fragment = SearchFragment()
             fragment.mLocations = locations
             fragment.mMapActivity = mapsActivity

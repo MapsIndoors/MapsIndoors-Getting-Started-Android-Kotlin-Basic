@@ -16,12 +16,12 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetBehavior.BottomSheetCallback
 import com.google.android.material.textfield.TextInputEditText
 import com.mapsindoors.mapssdk.MPDirectionsRenderer
-import com.mapsindoors.mapssdk.MPRoutingProvider
+import com.mapsindoors.mapssdk.MPDirectionsService
+import com.mapsindoors.mapssdk.MPPoint
 import com.mapsindoors.mapssdk.MapControl
-import com.mapsindoors.mapssdk.Point
 
 
-class MapsActivity : AppCompatActivity(), OnMapReadyCallback{
+class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
     private lateinit var mapView: View
@@ -31,10 +31,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback{
     private lateinit var mBtmnSheetBehavior: BottomSheetBehavior<FrameLayout>
     private lateinit var mSearchTxtField: TextInputEditText
     private var mCurrentFragment: Fragment? = null
-    private val mUserLocation: Point = Point(38.897389429704695, -77.03740973527613, 0.0)
+    private val mUserLocation: MPPoint = MPPoint(38.897389429704695, -77.03740973527613, 0.0)
 
     private var mpDirectionsRenderer: MPDirectionsRenderer? = null
-    private var mpRoutingProvider: MPRoutingProvider? = null
+    private var mpRoutingProvider: MPDirectionsService? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,7 +42,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback{
         setContentView(R.layout.activity_maps)
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager
-                .findFragmentById(R.id.map) as SupportMapFragment
+            .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
         //TODO: Instantiate MapsIndoors and assign mMapView from MapFragment
@@ -87,7 +87,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback{
                         }
                         //Clears the map if any searches has been done.
                         mMapControl?.let { mapControl ->
-                            mapControl.clearMap()
+                            mapControl.clearFilter()
                         }
                         //Removes the current fragment from the BottomSheet.
                         removeFragmentFromBottomSheet(mCurrentFragment!!)
@@ -107,7 +107,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback{
         mMap = googleMap
 
         mapView?.let { view ->
-            //TODO: Init MapControl here
+            //TODO: Create MapControl here
         }
     }
 
@@ -117,7 +117,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback{
         if (mCurrentFragment != null) {
             supportFragmentManager.beginTransaction().remove(mCurrentFragment!!).commit()
         }
-        supportFragmentManager.beginTransaction().replace(R.id.standardBottomSheet, newFragment).commit()
+        supportFragmentManager.beginTransaction().replace(R.id.standardBottomSheet, newFragment)
+            .commit()
         mCurrentFragment = newFragment
         //Set the map padding to the height of the bottom sheets peek height. To not obfuscate the google logo.
         runOnUiThread {
